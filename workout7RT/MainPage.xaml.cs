@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -44,11 +35,6 @@ namespace workout7RT
 
         private Activity currentActivity;
 
-        private Stream stream;
-        //private SoundEffect soundTick;
-        //private SoundEffect soundBeep;
-        //private SoundEffect soundSwitch;
-        //
         public MainPage()
         {
             this.InitializeComponent();
@@ -65,7 +51,8 @@ namespace workout7RT
                 "high knees running",
                 "lunge",
                 "push up and rotation",
-                "side plank"
+                "side plank",
+                ""
             };
 
             this.switchSides = new bool[]
@@ -96,7 +83,8 @@ namespace workout7RT
                 "exercise.running.png", 
                 "exercise.lunge.png", 
                 "exercise.push-up-rotate.png", 
-                "exercise.side-plank.png"
+                "exercise.side-plank.png",
+                ""
             };
 
             currentActivity = Activity.GettingReady;
@@ -108,11 +96,12 @@ namespace workout7RT
                 this.dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
                 this.dispatcherTimer.Tick += new EventHandler<object>(dispatcherTimer_Tick);
             }
+
+            nextExerciseLabel.Text = "\u2192 jumping jacks";
         }
 
         ~MainPage()
         {
-            // stream.Close();
             this.dispatcherTimer = null;
             // to do - zezwól  na gaszenie ekranu
         }
@@ -120,7 +109,7 @@ namespace workout7RT
         private void dispatcherTimer_Tick(object sender, object e)
         {
             TimeSpan tmps = (endTime - DateTime.Now);
-            //this.lTimer.Text = String.Format("00:{1:00}", tmps.Minutes, tmps.Seconds + 1);
+            timerLabel.Text = String.Format("00:{1:00}", tmps.Minutes, tmps.Seconds + 1);
 
             if (this.currentActivity == Activity.Exercise)
             {
@@ -171,10 +160,12 @@ namespace workout7RT
                      */
                     case Activity.GettingReady:
                         this.timeSpan = new TimeSpan(0, 0, 5);
-                        this.currentExerciseLabel.Text = "get ready!";
-                        /*this.image.Source = new BitmapImage(new Uri("Images/rest.png",
-                            UriKind.Relative));
-                        this.lTimer.Text = "00:05";*/
+                        
+                        currentExerciseLabel.Text = "get ready!";
+                        currentExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/main.png", UriKind.Absolute));
+                        nextExerciseLabel.Text = "\u2192 jumping jacks";
+                        nextExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/exercise.jacks.png", UriKind.Absolute));
+                        timerLabel.Text = "00:05";
                         beepEffect.Play();
                         break;
 
@@ -184,10 +175,13 @@ namespace workout7RT
                     case Activity.Exercise:
                         this.timeSpan = new TimeSpan(0, 0, 30);
 
-                        this.currentExerciseLabel.Text = this.exerciseNames[this.exerciseIndex];
-                        /*this.image.Source = new BitmapImage(new Uri("Images/" + this.imageNames[this.exerciseIndex],
-                            UriKind.Relative));
-                        this.lTimer.Text = "00:30";*/
+                        currentExerciseLabel.Text = exerciseNames[this.exerciseIndex];
+                        nextExerciseLabel.Text = "\u2192 " + exerciseNames[exerciseIndex + 1];
+                        currentExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/" + this.imageNames[this.exerciseIndex],
+                            UriKind.Absolute));
+                        nextExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/" + this.imageNames[this.exerciseIndex+1],
+                            UriKind.Absolute));
+                        timerLabel.Text = "00:30";
 
                         beepEffect.Play();
                         break;
@@ -196,23 +190,15 @@ namespace workout7RT
                      * and the label to combined "rest" word [...]
                      */
                     case Activity.Rest:
-                        // this.lExercise.FontSize = 72;
                         if (this.exerciseIndex < TOTAL_EXERCISES - 1)
                         {
                             this.timeSpan = new TimeSpan(0, 0, 10);
                             currentExerciseLabel.Text = "rest";
 
-                            /* [...] and next exercise name with lower font.
-                             */
-                            this.currentExerciseLabel.Inlines.Add(new Run
-                            {
-                                Text = " \u2192" +
-                                    this.exerciseNames[this.exerciseIndex + 1],
-                                FontSize = 32
-                            });
-                            /*this.image.Source = new BitmapImage(new Uri("Images/rest.png",
-                            UriKind.Relative));
-                            this.lTimer.Text = "00:10";*/
+                            
+                            currentExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/rest.png",
+                            UriKind.Absolute));
+                            timerLabel.Text = "00:10";
                             beepEffect.Play();
                         }
                         else Finish();
@@ -232,16 +218,14 @@ namespace workout7RT
 
         private void Finish()
         {
-            /*if (PhoneApplicationService.Current.UserIdleDetectionMode != IdleDetectionMode.Enabled)
-                PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Enabled;*/
-
             this.dispatcherTimer.Stop();
             this.timerLocked = true;
 
-            //this.lTimer.Text = "";
-            currentExerciseLabel.Text = "";
-            currentExerciseLabel.Inlines.Add(new Run { Text = "you've finished!" });
-            //this.image.Source = new BitmapImage(new Uri("Images/main.png", UriKind.Relative));
+            timerLabel.Text = "Workout 7";
+            currentExerciseLabel.Text = "you've finished!";
+            currentExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/main.png", UriKind.Absolute));
+            nextExerciseLabel.Text="";
+            nextExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/fake.png", UriKind.Absolute));
 
             beepEffect.Play();
         }
@@ -257,7 +241,5 @@ namespace workout7RT
             this.currentActivity = Activity.GettingReady;
             this.NextActivity();
         }
-
-        
     }
 }

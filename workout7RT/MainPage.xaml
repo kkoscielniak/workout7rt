@@ -11,7 +11,57 @@
         <MediaElement x:Name="beepEffect" AudioCategory="GameEffects" Source="Assets/Sounds/Beep.wav" AutoPlay="False" Visibility="Collapsed"/>
         <MediaElement x:Name="tickEffect" AudioCategory="GameEffects" Source="Assets/Sounds/Tick.wav" AutoPlay="False" Visibility="Collapsed"/>
         <MediaElement x:Name="switchSidesEffect" AudioCategory="GameEffects" Source="Assets/Sounds/Switch.wav" AutoPlay="False" Visibility="Collapsed"/>
-        <TextBlock x:Name="currentExerciseLabel" HorizontalAlignment="Left" Margin="161,110,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="83" Width="148"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="176,193,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Canvas x:Name="Workout7" HorizontalAlignment="Left" Height="768" UseLayoutRounding="False" VerticalAlignment="Top" Width="1366">
+        	<Canvas.Clip>
+        		<RectangleGeometry Rect="0,0,1366,768"/>
+        	</Canvas.Clip>
+        	<Image x:Name="Background" Height="768" Canvas.Left="0" Source="Workout7_Images/Background.png" Canvas.Top="0" Width="1366"/>
+        	<Canvas x:Name="Collection" Height="603" Canvas.Left="117" Canvas.Top="57" Width="878">
+        		<Image x:Name="nextExerciseImage" Height="299" Canvas.Left="579" Source="Assets/Images/exercise.jacks.png" Canvas.Top="123" Width="299"/>
+        		<TextBlock x:Name="nextExerciseLabel" Foreground="Black" FontSize="41.18404" FontFamily="Segoe UI Light" LineStackingStrategy="BlockLineHeight" Canvas.Left="578.986" LineHeight="41.18404" TextAlignment="Left" TextWrapping="Wrap" Text="-&gt; Abdominal crunch" Canvas.Top="82.598" FontWeight="Bold">
+        			<TextBlock.RenderTransform>
+        				<ScaleTransform ScaleY="0.648" ScaleX="0.648"/>
+        			</TextBlock.RenderTransform>
+        		</TextBlock>
+        		<Image x:Name="currentExerciseImage" Height="480" Canvas.Left="3" Source="Assets/Images/main.png" Canvas.Top="123" Width="480"/>
+        		<TextBlock x:Name="currentExerciseLabel" Foreground="Black" FontSize="41.18404" FontFamily="Segoe UI Light" LineStackingStrategy="BlockLineHeight" Canvas.Left="2.986" LineHeight="41.18404" TextAlignment="Left" TextWrapping="Wrap" Text="Begin your workout..." Canvas.Top="82.598" FontWeight="Bold">
+        			<TextBlock.RenderTransform>
+        				<ScaleTransform ScaleY="0.648" ScaleX="0.648"/>
+        			</TextBlock.RenderTransform>
+        		</TextBlock>
+        		<TextBlock x:Name="timerLabel" Foreground="Black" FontSize="86.48649" FontFamily="Segoe UI Light" LineStackingStrategy="BlockLineHeight" Canvas.Left="-1.014" LineHeight="86.48649" TextAlignment="Left" TextWrapping="Wrap" Text="Workout 7" Canvas.Top="1.497">
+        			<TextBlock.RenderTransform>
+        				<ScaleTransform ScaleY="0.648" ScaleX="0.648"/>
+        			</TextBlock.RenderTransform>
+        		</TextBlock>
+        	</Canvas>
+        </Canvas>
+        
+        <!-- AppBar -->
+        
+
+
     </Grid>
+
+    <Page.BottomAppBar>
+        <AppBar IsOpen="True" Background="Green">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="Begin" 
+                            Style="{StaticResource AppBarButtonStyle}"
+                            Foreground="White"
+                            AutomationProperties.Name="Begin workout"
+                            Click="Button_Click">
+                        &#xE102;
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
 </Page>
+
+
