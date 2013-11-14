@@ -44,7 +44,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <AppBar IsOpen="True" Background="Green">
+        <AppBar IsOpen="True" Background="LightGreen">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -53,7 +53,6 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="Begin" 
                             Style="{StaticResource AppBarButtonStyle}"
-                            Foreground="White"
                             AutomationProperties.Name="Begin workout"
                             Click="Button_Click">
                         &#xE102;

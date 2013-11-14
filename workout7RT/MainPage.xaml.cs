@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using workout7RT.Helpers;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,6 +38,7 @@ namespace workout7RT
 
         public MainPage()
         {
+            TileHelper.SetUpTiles(0);
             this.InitializeComponent();
 
             this.exerciseNames = new string[]{
@@ -147,10 +149,6 @@ namespace workout7RT
 
         private void NextActivity()
         {
-            // to-do:
-            // lock the lockscreen during workout (?)
-            
-
             if (this.dispatcherTimer != null)
             {
                 switch (currentActivity)

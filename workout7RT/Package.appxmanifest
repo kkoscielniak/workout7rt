@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="workout7RT.App">
-      <VisualElements DisplayName="Workout 7" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Simple 7-minute workout app for Windows Store" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
+      <VisualElements DisplayName="Workout 7" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Simple 7-minute workout app for Windows Store" ForegroundText="light" BackgroundColor="#008000" ToastCapable="true">
+        <DefaultTile ShowName="allLogos" WideLogo="Assets\WideLogo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" />
         <InitialRotationPreference>
           <Rotation Preference="landscape" />
