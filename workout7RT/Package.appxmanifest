@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="656512f5-b26b-4759-9766-3e243b7f5163" Publisher="CN=Krystian" Version="1.0.0.0" />
+  <Identity Name="2056KrystianKocielniak.Workout7" Publisher="CN=5FA8655F-5E26-4548-A788-9BB661754053" Version="1.0.0.0" />
   <Properties>
     <DisplayName>Workout 7</DisplayName>
     <PublisherDisplayName>Krystian Kościelniak</PublisherDisplayName>

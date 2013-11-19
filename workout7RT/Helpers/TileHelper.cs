@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Notifications;
+﻿using Windows.UI.Notifications;
 
 namespace workout7RT.Helpers
 {
@@ -30,12 +25,20 @@ namespace workout7RT.Helpers
             TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
         }
 
-        static public void ShowToastNotification(int streak)
-        {
-            // to do. 
+        // TO DO
+        ////static public void ShowToastNotification(int streak)
+        ////{
+        ////    // to do. 
 
+        ////    var xml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText01);
+        ////    xml.GetElementsByTagName("text")[0].AppendChild(xml.CreateTextNode("Hello from toast!"));
+        ////    ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(xml));
+        ////}
+
+        static public void ShowToastNotification(string s)
+        {
             var xml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText01);
-            xml.GetElementsByTagName("text")[0].AppendChild(xml.CreateTextNode("Hello from toast!"));
+            xml.GetElementsByTagName("text")[0].AppendChild(xml.CreateTextNode(s));
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(xml));
         }
 

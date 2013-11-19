@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -14,6 +15,8 @@ namespace workout7RT
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        SettingsManager settings;
+
         private const int TOTAL_EXERCISES = 12;
 
         private TimeSpan timeSpan;
@@ -38,8 +41,15 @@ namespace workout7RT
 
         public MainPage()
         {
-            TileHelper.SetUpTiles(0);
             this.InitializeComponent();
+
+            settings = new SettingsManager();
+
+            if (settings.FirstRun)
+            {
+                TileHelper.ShowToastNotification("The live tile will update once you finish your first workout.");
+                settings.FirstRun = false;
+            }
 
             this.exerciseNames = new string[]{
                 "jumping jacks",
@@ -91,7 +101,7 @@ namespace workout7RT
 
             currentActivity = Activity.GettingReady;
 
-            /* Prepare dispatcher Timer */
+            // prepare dispatcher timer
             if (this.dispatcherTimer == null)
             {
                 this.dispatcherTimer = new DispatcherTimer();
@@ -223,19 +233,50 @@ namespace workout7RT
             currentExerciseLabel.Text = "you've finished!";
             currentExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/main.png", UriKind.Absolute));
             nextExerciseLabel.Text="";
-            nextExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/fake.png", UriKind.Absolute));
+            nextExerciseImage.Source = new BitmapImage(new Uri("ms-appx:///Assets/fake_uri.png", UriKind.Absolute));
 
             beepEffect.Play();
+
+            IncreaseCurrentStreak();
         }
 
-
+        /// <summary>
+        /// Increases streak counter if there passed no more than 1 day.
+        /// </summary>
+        private void IncreaseCurrentStreak()
+        {
+            DateTimeOffset offset = new DateTimeOffset(DateTime.Today);
+#if DEBUG
+        Debug.WriteLine("Days passed: {0}", (DateTime.Today - settings.RecentDayOfWorkout).TotalDays);
+#endif
+            if ((DateTime.Today - settings.RecentDayOfWorkout.DateTime).TotalDays < 2.00)
+            {
+#if DEBUG
+                Debug.WriteLine("Increasing streak");
+#endif
+                settings.CurrentStreakSetting = settings.CurrentStreakSetting + 1;
+            }
+            else
+            {
+#if DEBUG
+                Debug.WriteLine("Streak goes to 1");
+#endif
+                settings.CurrentStreakSetting = 1;
+            }
+            settings.RecentDayOfWorkout = offset;
+            TileHelper.SetUpTiles(settings.CurrentStreakSetting);
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.timerLocked = false;
+#if DEBUG
+            exerciseIndex = 11;
+#else
             this.exerciseIndex = 0;
+#endif
             this.currentActivity = Activity.GettingReady;
             this.NextActivity();
         }
